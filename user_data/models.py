@@ -4,6 +4,10 @@ from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
+def get_upload_path_users(instance, filename):
+    if not instance.id:
+        return f'users/temp/{filename}'
+    return f'lusers/{instance.id}/{filename}'
 
 # Função auxiliar para validar as imagens fornecidas pelos usuários.
 # A função verifica se o tamanho da imagem não supera 2MB, para evitar
@@ -31,10 +35,9 @@ class CustomUser(AbstractUser):
     address_city = models.CharField(max_length=255)
     email = models.EmailField()
     profile_photo = models.ImageField(
-        upload_to="users_photos",
+        upload_to=get_upload_path_users,
         null=True,
         blank=True,
-        default="users_photos/default.png",
         validators=[validate_image_size],
         max_length=500,
     )

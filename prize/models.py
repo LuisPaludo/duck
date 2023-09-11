@@ -8,6 +8,10 @@ import random, string
 from user_data.models import CustomUser
 from user_data.models import validate_image_size
 
+def get_upload_path_logos(instance, filename):
+    if not instance.id:
+        return f'logos/temp/{filename}'
+    return f'loogos/{instance.id}/{filename}'
 
 # Função para gerar códigos de 20 caracteres aleatórios. Isso permite os pontos turísticos e os prêmios
 # Possuírem códigos únicos associados
@@ -43,10 +47,9 @@ class Prizes(models.Model):
         PrizeCategory, on_delete=models.SET_NULL, null=True, related_name="prizes"
     )
     logo = models.ImageField(
-        upload_to="logos",
+        upload_to=get_upload_path_logos,
         null=True,
         blank=True,
-        default="users_photos/default.png",
         validators=[validate_image_size],
         max_length=500,
     )

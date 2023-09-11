@@ -7,6 +7,15 @@ from prize.models import generate_random_code
 from user_data.models import validate_image_size
 from django.utils.text import slugify
 
+def get_upload_path_locations(instance, filename):
+    if not instance.id:
+        return f'locations/temp/{filename}'
+    return f'locations/{instance.id}/{filename}'
+
+def get_upload_path_attractions(instance, filename):
+    if not instance.id:
+        return f'locations/attractions/temp/{filename}'
+    return f'locations/attractions/{instance.id}/{filename}'
 
 # Model para armazenar os pontos turísticos da cidade
 # Aqui funcionará como um ponto "mãe". Por exemplo,
@@ -23,28 +32,28 @@ class Location(models.Model):
     coordinates_long = models.CharField(max_length=255, default="")
     slug_field = models.SlugField(default="", blank=True, null=True)
     photo_1 = models.ImageField(
-        upload_to="Locations",
+        upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
         max_length=500,
     )
     photo_2 = models.ImageField(
-        upload_to="Locations",
+        upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
         max_length=500,
     )
     photo_3 = models.ImageField(
-        upload_to="Locations",
+        upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
         max_length=500,
     )
     photo_4 = models.ImageField(
-        upload_to="Locations",
+        upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
@@ -85,7 +94,7 @@ class TouristAttraction(models.Model):
     coordinates_long = models.CharField(max_length=255, default="")
     points = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     photo = models.ImageField(
-        upload_to="Locations/Touristic_Points",
+        upload_to=get_upload_path_attractions,
         null=True,
         blank=True,
         validators=[validate_image_size],

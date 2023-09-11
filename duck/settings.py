@@ -251,7 +251,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 #  Path para uma classe customizada que adapta ou estende a funcionalidade do allauth.
 ACCOUNT_ADAPTER = "user_data.api.adapter.CustomAccountAdapter"
 # O endereço URL do frontend. Útil para redirecionar ou criar URLs em e-mails, por exemplo.
-URL_FRONTEND = config("URL_FRONTEND", default="http://localhost:4200")
+URL_FRONTEND = config("URL_FRONTEND", default="https://luispaludo.github.io/duck-go/")
 
 # Se True, todas as origens estarão autorizadas. Isso pode ser perigoso em produção,
 # pois permite que qualquer site faça solicitações à sua API.

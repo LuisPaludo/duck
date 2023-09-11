@@ -1,0 +1,1 @@
+web: gunicorn duck.wsgi --log-file -

@@ -2,7 +2,7 @@
 > Proposto pela empresa SoftFocus
 
 ## 📌 **Visão Geral**
-O **Duck GO!** é uma solução inovadora voltada para o incentivo e enriquecimento do turismo em Pato Branco - PR. Inspirado pelo conceito de Pokémon GO!, este projeto visa não apenas promover o turismo, mas também integrar a comunidade local através de recompensas tangíveis.
+O **Duck GO!** é uma proposta para o incentivo e enriquecimento do turismo em Pato Branco - PR. Inspirado pelo conceito de Pokémon GO!, este projeto visa não apenas promover o turismo, mas também integrar a comunidade local através de recompensas tangíveis.
 
 **[Acessar o Duck GO!](https://luispaludo.github.io/duck-go/)**
 

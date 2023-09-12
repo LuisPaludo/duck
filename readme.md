@@ -1,61 +1,64 @@
-# Projeto Final do Curso - Semeando Devs - Proposto pela empresa SoftFocus
+# **Duck GO!**: Projeto Final - Semeando Devs
+> Proposto pela empresa SoftFocus
 
-## Descrição do Projeto
+## 📌 **Visão Geral**
+O **Duck GO!** é uma solução inovadora voltada para o incentivo e enriquecimento do turismo em Pato Branco - PR. Inspirado pelo conceito de Pokémon GO!, este projeto visa não apenas promover o turismo, mas também integrar a comunidade local através de recompensas tangíveis.
 
-A proposta do projeto tenta solucionar os problemas apresentados quanto ao turismo de Pato Branco - PR, ao mesmo tempo que incentiva a prática na cidade. O projeto chama-se Duck GO! e está disponível no link: 
+**[Acessar o Duck GO!](https://luispaludo.github.io/duck-go/)**
 
-https://luispaludo.github.io/duck-go/
+## 🌟 **Funcionalidades**
 
-Como o nome sugere, trata-se de uma reimaginação do já consagrado Pokemon GO!, porém voltado apenas para o turismo da cidade de Pato Branco. Duck GO! é um web app de simples funcionamento: Os usuários leem QR Codes em pontos turísticos e acumulam pontos que podem ser trocados por prêmios no comércio local.
+### 1. **Cadastro de Usuário**
+- Coleta de informações do usuário para entender o fluxo e perfil dos turistas.
+- Suporte para dois tipos de contas: **Usuários Convencionais** e **Usuários Parceiros**.
 
-Vou detalhar o funcionamento e explicar quais problemas busco resolver com o projeto:
+### 2. **Acúmulo de Pontos**
+- Os usuários exploram locais turísticos, escaneiam QR Codes e acumulam pontos.
 
-- De ínicio, para poder utilizar o aplicativo, o usuário necessita efetuar um cadastro no aplicativo, assim, coletamos as informações de quem estará utilizando. Isso permite conhecer quem, quando e de onde são as pessoas que compõe o fluxo turístico de Pato Branco.
-- Com a Conta criada e verificada, o usuário pode começar a acumular pontos.
-- Os pontos podem ser obtidos da seguinte forma: O usuário visita um dos pontos turísticos apresentados na aba "Locais de Caça". Ao chegar no ponto, deve buscar por QR Codes escondidos próximos de Atrações Turísticas. Escaneando o QR Codes os pontos serão automaticamente adicionados a conta.
-- Após uma quantida de pontos atingida, ele pode trocar por prêmios, localizados na aba "Lista de Prêmios".
+### 3. **Troca de Prêmios**
+- Pontos podem ser trocados por prêmios no comércio local.
 
-A ideia principal é a de incentivar a visitação de pontos turísticos diversos na cidade, propondo uma recompensa para a ação dos usuários.
+### 4. **Usuários Parceiros**
+- Contas dedicadas à criação e oferta de prêmios.
+- Não acumulam pontos, mas validam prêmios para os usuários convencionais.
 
-Além de usuários convencionais, o sistema possui suporte a Usuários Parceiros, sendo esses, contas que não irão acumular pontos e sim, criar prêmios para usuários convencionais poderem realizar a troca, além de, validar os prêmios criados e permitir a implementação dos descontos na vida real.
+### 5. **Administração**
+- Contas parceiras só podem ser criadas através do administrador do sistema.
 
-Para obter uma conta parceira, somente é possível entrando em contato com o administrador do sistema, não existe um cadastro para parceiros no momento.
+## 🛠 **Tecnologias e Frameworks**
 
-## Framework Utilizado
+- **Backend**: Construído com o framework **Django**.
+- **Hospedagem**: Servidor no **RailWay**.
+- **Banco de Dados**: Armazenado no **RCD da Amazon**.
+- **Armazenamento de Imagens**: Utilizando o **Amazon S3**.
 
-O back end do projeto foi inteiramente produzido com o framework Django. O Servidor está rodando atualmente no RailWay, com armazenamento do banco de dados no RCD da Amazon, além de também armazenar as imagens no S3, também da Amazon.
+## 🔍 **Estrutura do Projeto**
 
-Obs: Maiores comentários estarão posicionados no código do projeto, aqui é apresentada apenas uma breve descrição.
+### 1. **user_data**
+- **Models**:
+  - **CustomUser**: Extensão do modelo de usuário padrão do Django, com campos de cadastro adicionais.
+  - **History**: Registra atividades do usuário, desde aquisição de pontos até resgate de prêmios.
 
-O projeto conta com 3 apps principais:
+### 2. **prizes**
+- **Models**:
+  - **Prizes**: Refere-se aos prêmios disponíveis, criados pelos parceiros.
+  - **PrizesCategorys**: Classificações de prêmios.
+  - **UserRedeemedPrizes**: Prêmios que os usuários resgataram, gerando um código único para validação.
 
-- **user_data**: Responsável pelo armazenamento das informações dos usuários, bem como seus históricos de ações.
-- **prizes**: Responsável pelo sistema de prêmios do projeto.
-- **Locations**: Resposável pelos locais turísticos e suas atrações.
+### 3. **Locations**
+- **Models**:
+  - **Locations**: Representa os locais turísticos de Pato Branco.
+  - **TouristAttractions**: Representa os pontos turísticos, associados a códigos QR únicos.
 
-# user_data
+## 📝 **Notas Adicionais**
+- Todos os detalhes técnicos, especificações e comentários mais profundos sobre o código podem ser encontrados diretamente no código fonte.
+- Esta descrição é apenas um panorama para facilitar a compreensão da estrutura e da funcionalidade do projeto.
 
-Esse app gira em torno de duas models: CustomUser e History.
+## Metas do Projeto
 
-- **CustomUser**: é uma extensão da classe de usuário padrão, acrescentando diversos campos de cadastro. 
-- **History**: Aqui ficarão registradas todas as ações do usuário, desde aquisições de pontos, até obtenção de prêmios e validação dos prêmios com a empresa.
-
-# prizes
-
-Aqui existem três models:
-
-- **Prizes**: Referente aos prêmios disponíveis para os usuários (Criados pelos parceiros).
-- **PrizesCategorys**: Categorias de prêmios
-- **UserRedeemedPrizes**: Prêmios resgatados pelos usuários. Cada usuário pode resgatar apenas uma instância de cada prêmio, e, cada resgate irá gerar um código único, que será utilizado no processo de validação do prêmio na hora da retirada com a empresa que o criou.
-
-# Locations
-
-Por fim, o app é composto por duas models:
-
-- **Locations**: Refere-se aos locais turísticos da cidade, estes locais que abrigam os pontos turísticos.
-- **TouristAttractions**: Refere-se aos pontos turísticos. Cada ponto é associado a um código, que então produz um QR Code único. A leitura do QR Code próximo das coordenadas do local, valida a quantia de pontos a serem adicionadas a conta do usuário.
-
-
-
-
-
+| Meta                                 | Status          |
+| ------------------------------------ | --------------  |
+| MVP                                  | ✅ Superada     |
+| Testes                               | ⌛ Em Progresso |
+| Sistema de Conquistas                | ❌ Não Superada |
+| Melhorias no código                  | ❌ Não Superada |

@@ -3,8 +3,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied
-from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from datetime import timedelta
 from django.utils import timezone
 

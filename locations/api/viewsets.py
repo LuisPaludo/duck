@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.filters import SearchFilter
+from django.http import QueryDict
 
 from .serializers import TouristAttractionSerializer, LocationSerializer
 from locations.models import TouristAttraction, Location
@@ -27,4 +28,11 @@ class TouristAttractionViewSet(ModelViewSet):
     filter_backends = [SearchFilter,]
     # Define em qual campo da model será feita a pesquisa
     search_fields = ['code',]
+
+    def get_queryset(self):
+        # Verificar se o parâmetro de busca foi fornecido
+        if isinstance(self.request.GET, QueryDict) and self.request.GET.get('search'):
+            return super(TouristAttractionViewSet, self).get_queryset()
+        # Retorna um queryset vazio
+        return TouristAttraction.objects.none() 
 

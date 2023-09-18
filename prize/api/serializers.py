@@ -48,7 +48,7 @@ class PrizesSerializer(ModelSerializer):
         one_week_from_today = today + timedelta(weeks=1)
 
         if value <= today:
-            raise ValidationError("The expiry date can't be today or in the past.")
+            raise ValidationError("A data não pode ser no passado ou o dia atual")
 
         if value <= one_week_from_today:
             raise ValidationError(

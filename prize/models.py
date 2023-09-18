@@ -1,6 +1,4 @@
 from django.db import models
-from datetime import date, timedelta
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 import random, string

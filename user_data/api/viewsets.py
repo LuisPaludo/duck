@@ -95,7 +95,7 @@ class PartnerDetailsViewSet(ModelViewSet):
 
     # A função retrieve é basicamente uma ação para buscar um único registro do banco de dados baseado em um identificador
     # nesse caso "partner_company_name_slug
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, **kwargs):
         # tenta obter um parceiro através do argumento fornecido na chamada, returna um erro caso não encontre
         try:
             partner = self.queryset.get(partner_company_name_slug=kwargs["partner_company_name_slug"])

@@ -1,7 +1,6 @@
 from sqlite3 import IntegrityError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.db.utils import IntegrityError
 from django.utils import timezone
@@ -15,7 +14,6 @@ from .serializers import (
     PartnerRedeemPrizeSerializer,
 )
 from user_data.models import History
-
 
 # View acessada apenas por usuários autenticados
 # No get é fornecido todos os prêmios disponíveis
@@ -298,7 +296,7 @@ class PartnerRedeemPrizeViewSet(viewsets.ModelViewSet):
             redeemed_prize.is_used = True
             redeemed_prize.save()
 
-            response_data = {"message": "Prize redeemed successfully."}
+            response_data = {"message": "Prêmio utilizado com sucesso."}
 
             return Response(response_data, status=status.HTTP_200_OK)
         else:

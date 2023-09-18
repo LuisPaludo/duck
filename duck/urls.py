@@ -34,7 +34,6 @@ router.register(
 )
 router.register("checar", PartnerCheckRedeemPrizeViewSet, basename="check")
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="DuckGO API",

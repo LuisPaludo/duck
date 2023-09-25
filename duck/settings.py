@@ -220,6 +220,8 @@ REST_AUTH = {
     # para exibir os detalhes do usuário, respectivamente.
     "REGISTER_SERIALIZER": "user_data.api.serializers.CustomRegisterSerializer",
     "USER_DETAILS_SERIALIZER": "user_data.api.serializers.CustomUserSerializer",
+    "OLD_PASSWORD_FIELD_ENABLED": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": False,
 }
 
 #  Define a duração da validade do token de acesso

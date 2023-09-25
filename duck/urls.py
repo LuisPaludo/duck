@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers, permissions
+from dj_rest_auth.views import PasswordResetConfirmView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
@@ -58,4 +59,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("accounts/", include("dj_rest_auth.urls")),
     path("accounts/registration/", include("dj_rest_auth.registration.urls")),
+    path('dj-rest-auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

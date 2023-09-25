@@ -30,34 +30,34 @@ class Location(models.Model):
     map_link = models.URLField(max_length=255, default="")
     coordinates_lat = models.CharField(max_length=255, default="")
     coordinates_long = models.CharField(max_length=255, default="")
-    slug_field = models.SlugField(default="", blank=True, null=True)
+    slug_field = models.SlugField(default="",max_length=100, blank=True, null=True)
     photo_1 = models.ImageField(
         upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
-        max_length=500,
+        max_length=1000,
     )
     photo_2 = models.ImageField(
         upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
-        max_length=500,
+        max_length=1000,
     )
     photo_3 = models.ImageField(
         upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
-        max_length=500,
+        max_length=1000,
     )
     photo_4 = models.ImageField(
         upload_to=get_upload_path_locations,
         null=True,
         blank=True,
         validators=[validate_image_size],
-        max_length=500,
+        max_length=1000,
     )
 
     def __str__(self) -> str:

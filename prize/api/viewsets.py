@@ -63,7 +63,7 @@ class PartnerCreatedPrizesViewSet(viewsets.ModelViewSet):
     # Aqui verificamos se o usuário é parceiro, se sim, filtramos Prizes e buscamos os
     # prêmios gerados por ele
     def get_queryset(self):
-        if self.request.user.is_partner:
+        if self.request.user.is_authenticated and self.request.user.is_partner:
             return Prizes.objects.filter(generated_by=self.request.user)
         return Prizes.objects.none()
 
@@ -76,7 +76,10 @@ class UserRedeemedPrizesViewSet(viewsets.ModelViewSet):
 
     # Retorna os prêmios do usuário autenticado
     def get_queryset(self):
-        return UserRedeemedPrizes.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return UserRedeemedPrizes.objects.filter(user=self.request.user)
+        return UserRedeemedPrizes.objects.none()
+        
 
     # Método para a obtenção de um novo prêmio por parte do usuário
     def create(self, request, *args, **kwargs):

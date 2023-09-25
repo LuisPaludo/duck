@@ -95,10 +95,10 @@ class PartnerDetailsViewSet(ModelViewSet):
 
     # A função retrieve é basicamente uma ação para buscar um único registro do banco de dados baseado em um identificador
     # nesse caso "partner_company_name_slug
-    def retrieve(self, **kwargs):
+    def retrieve(self, request, partner_company_name_slug=None):
         # tenta obter um parceiro através do argumento fornecido na chamada, returna um erro caso não encontre
         try:
-            partner = self.queryset.get(partner_company_name_slug=kwargs["partner_company_name_slug"])
+            partner = self.queryset.get(partner_company_name_slug=partner_company_name_slug)
         except CustomUser.DoesNotExist:
             raise NotFound("Não existe um parceiro com o nome da empresa fornecido")
 

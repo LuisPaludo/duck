@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import PasswordChangeSerializer
 from django.db.models import Sum
 from django.utils import timezone
 
@@ -156,3 +157,21 @@ class CustomRegisterSerializer(RegisterSerializer):
             "profile_photo": self.validated_data.get("profile_photo", ""),
             "is_terms_accepted": self.validated_data.get("is_terms_accepted", ""),
         }
+
+
+class CustomPasswordChangeSerializer(PasswordChangeSerializer):
+    
+    def validate(self, data):
+        # Chame a validação original primeiro
+        data = super().validate(data)
+
+        # Verifique se a nova senha é diferente da antiga
+        old_password = data['old_password']
+        new_password1 = data['new_password1']
+        
+        if old_password == new_password1:
+            raise serializers.ValidationError({
+                'new_password1': ['A nova senha deve ser diferente da antiga.']
+            })
+
+        return data

@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.viewsets import ModelViewSet
+from dj_rest_auth.views import PasswordChangeView
 from datetime import timedelta
 from django.utils import timezone
 
@@ -11,6 +12,7 @@ from user_data.models import History, CustomUser
 from .serializers import (
     CustomUserSerializer,
     HistorySerializer,
+    CustomPasswordChangeSerializer
 )
 
 # ViewSet responsável pela criação de entradas no histórico do usuário.
@@ -83,6 +85,9 @@ class HistoryViewSet(ModelViewSet):
 class CustomVerifyEmailView(CreateAPIView):
     def get_queryset(self):
         return
+    
+class CustomPasswordChangeView(PasswordChangeView):
+    serializer_class = CustomPasswordChangeSerializer
 
 # View que tem como intuito apresentar as informações de usuários parceiros para os outros usuários (normais e parceiros)
 class PartnerDetailsViewSet(ModelViewSet):

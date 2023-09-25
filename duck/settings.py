@@ -222,6 +222,7 @@ REST_AUTH = {
     # para exibir os detalhes do usuário, respectivamente.
     "REGISTER_SERIALIZER": "user_data.api.serializers.CustomRegisterSerializer",
     "USER_DETAILS_SERIALIZER": "user_data.api.serializers.CustomUserSerializer",
+    "PASSWORD_CHANGE_SERIALIZER": "user_data.api.serializers.CustomPasswordChangeSerializer",
     "OLD_PASSWORD_FIELD_ENABLED": True,
     "LOGOUT_ON_PASSWORD_CHANGE": False,
 }

@@ -117,7 +117,7 @@ class PartnerDetailsViewSet(ModelViewSet):
                 "partner_number_contact": partner.partner_number_contact,
                 "address_street": partner.address_street,
                 "address_city": partner.address_city,
-                "profile_photo": partner.profile_photo.url,
+                "profile_photo": partner.profile_photo.url if partner.profile_photo else None,
                 "cep": partner.cep,
                 "partner_company_description": partner.partner_company_description,
             },

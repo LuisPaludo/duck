@@ -180,4 +180,8 @@ class CustomPasswordChangeSerializer(PasswordChangeSerializer):
     
 class CustomPasswordResetSerializer(PasswordResetSerializer):
     def get_email_options(self):
-        return f'{URL_FRONTEND}/verificacao-email/'
+        return {
+        'extra_email_context': {
+            'password_reset_url': f'{URL_FRONTEND}/verificacao-email/'
+        }
+    }

@@ -59,5 +59,9 @@ urlpatterns = [
     path("", include(router.urls)),
     path("accounts/", include("dj_rest_auth.urls")),
     path("accounts/registration/", include("dj_rest_auth.registration.urls")),
-    path('dj-rest-auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path(
+        "accounts/password/reset/confirm/<slug:uidb64>/<slug:token>/",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

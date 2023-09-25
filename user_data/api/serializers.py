@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from dj_rest_auth.serializers import PasswordChangeSerializer
+from dj_rest_auth.serializers import PasswordChangeSerializer, PasswordResetSerializer
 from django.db.models import Sum
 from django.utils import timezone
 
 from user_data.models import CustomUser, History
+from duck.settings import URL_FRONTEND
 
 # Serializer para o usuário
 # Retorna os seguintes campos e, a informação dele ser parceiro ou não é apenas para leitura
@@ -158,7 +159,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             "is_terms_accepted": self.validated_data.get("is_terms_accepted", ""),
         }
 
-
+# Serializer para adicionar uma validação na troca de senha. Necessariamente a nova senha deve ser
+# diferente da antiga
 class CustomPasswordChangeSerializer(PasswordChangeSerializer):
     
     def validate(self, data):
@@ -175,3 +177,7 @@ class CustomPasswordChangeSerializer(PasswordChangeSerializer):
             })
 
         return data
+    
+class CustomPasswordResetSerializer(PasswordResetSerializer):
+    def get_email_options(self):
+        return f'{URL_FRONTEND}/verificacao-email/'

@@ -85,7 +85,8 @@ class HistoryViewSet(ModelViewSet):
 class CustomVerifyEmailView(CreateAPIView):
     def get_queryset(self):
         return
-    
+
+# View para alterar o serializer do serviço de troca de senha
 class CustomPasswordChangeView(PasswordChangeView):
     serializer_class = CustomPasswordChangeSerializer
 

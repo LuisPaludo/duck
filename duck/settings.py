@@ -222,9 +222,13 @@ REST_AUTH = {
     # para exibir os detalhes do usuário, respectivamente.
     "REGISTER_SERIALIZER": "user_data.api.serializers.CustomRegisterSerializer",
     "USER_DETAILS_SERIALIZER": "user_data.api.serializers.CustomUserSerializer",
+    # Estas opções definem o serializer padrão para o serviço de troca de senha
     "PASSWORD_CHANGE_SERIALIZER": "user_data.api.serializers.CustomPasswordChangeSerializer",
+    # Define como obrigatório o uso da senha antiga na troca de senha
     "OLD_PASSWORD_FIELD_ENABLED": True,
+    # Não desloga o usuário quando ele troca de senha
     "LOGOUT_ON_PASSWORD_CHANGE": False,
+    "PASSWORD_RESET_SERIALIZER": "user_data.api.serializers.CustomPasswordResetSerializer"
 }
 
 #  Define a duração da validade do token de acesso

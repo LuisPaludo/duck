@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.viewsets import ModelViewSet
-from dj_rest_auth.views import PasswordChangeView, PasswordResetView
+from dj_rest_auth.views import PasswordChangeView
 from datetime import timedelta
 from django.utils import timezone
 
@@ -13,7 +13,6 @@ from .serializers import (
     CustomUserSerializer,
     HistorySerializer,
     CustomPasswordChangeSerializer,
-    CustomPasswordResetSerializer
 )
 
 # ViewSet responsável pela criação de entradas no histórico do usuário.

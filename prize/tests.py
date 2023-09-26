@@ -12,6 +12,13 @@ from .models import PrizeCategory, Prizes, UserRedeemedPrizes
 from user_data.models import CustomUser, History
 from user_data.api.viewsets import HistoryViewSet
 
+import datetime
+
+def get_date_less_than_one_week():
+    today = datetime.date.today()
+    expiry_date = today + datetime.timedelta(days=+3)
+    return expiry_date.strftime('%Y-%m-%d')
+
 from .api.viewsets import (
     PrizesViewSet,
     PrizeCategoryViewSet,
@@ -46,7 +53,7 @@ prize_mock_data_less_than_one_week_date = {
     "cost_in_points": "101",
     "category": "1",
     "times_to_be_used": "200",
-    "expiry_date": "2023-09-20",
+    "expiry_date": get_date_less_than_one_week(),
 }
 
 

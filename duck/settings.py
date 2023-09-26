@@ -292,3 +292,5 @@ AUTHENTICATION_BACKENDS = (
 CSRF_TRUSTED_ORIGINS = [
     'https://web-production-1c42.up.railway.app'
 ]
+
+CUSTOM_PASSWORD_RESET_CONFIRM = URL_FRONTEND + '/login/reset/confirmar/'

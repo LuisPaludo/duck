@@ -3,9 +3,12 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import PasswordChangeSerializer, PasswordResetSerializer
 from django.db.models import Sum
 from django.utils import timezone
+from django.contrib.auth.forms import PasswordResetForm
+from django.conf import settings
 
 from user_data.models import CustomUser, History
 from duck.settings import URL_FRONTEND
+from .adapter import CustomAllAuthPasswordResetForm
 
 # Serializer para o usuário
 # Retorna os seguintes campos e, a informação dele ser parceiro ou não é apenas para leitura
@@ -178,10 +181,14 @@ class CustomPasswordChangeSerializer(PasswordChangeSerializer):
 
         return data
     
+# Serializer para permitir a alteração do e-mail encaminhado para o usuário
+# Toda a lógica presente aqui e no adapter.py permitem alterar o campo de URL
+# direcionando o usuário corretamente para o Front End    
 class CustomPasswordResetSerializer(PasswordResetSerializer):
-    def get_email_options(self):
-        return {
-        'extra_email_context': {
-            'password_reset_url': f'{URL_FRONTEND}/verificacao-email/'
-        }
-    }
+    @property
+    def password_reset_form_class(self):
+        if 'allauth' in settings.INSTALLED_APPS:
+            return CustomAllAuthPasswordResetForm
+        else:
+            return PasswordResetForm
+            

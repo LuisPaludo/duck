@@ -12,7 +12,8 @@ from user_data.models import History, CustomUser
 from .serializers import (
     CustomUserSerializer,
     HistorySerializer,
-    CustomPasswordChangeSerializer
+    CustomPasswordChangeSerializer,
+    CustomPasswordResetSerializer
 )
 
 # ViewSet responsável pela criação de entradas no histórico do usuário.

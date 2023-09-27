@@ -11,7 +11,12 @@
 
 ## Introdução
 
-O projeto **Duck GO!** é um webapp desenvolvido com Django, cujo principal objetivo é promover o turismo em Pato Branco. Baseado na ideia do popular jogo Pokémon GO, o projeto visa incentivar visitas a pontos turísticos, permitindo que os visitantes acumulem pontos através da leitura de QR Codes espalhados pelos locais. Esses pontos podem ser trocados por prêmios, incentivando ainda mais a exploração da cidade.
+**Duck GO!** é um webapp desenvolvido em Django e Angular destinado a otimizar o turismo em Pato Branco. O sistema, inspirado no Pokémon GO, integra funcionalidades de geolocalização com mecanismos de recompensa.
+
+- **Registro e Autenticação**: Utiliza-se as bibliotecas Django Rest Auth e Rest Framework. A autenticação é feita através de tokens, especificamente tokens de acesso e refresh.
+- **Perfil de Usuário**: Os usuários podem gerenciar informações do perfil, visualizar históricos de ações (como aquisição e resgate de pontos) e alterar configurações de segurança.
+- **Mecanismo de Pontuação**: QR Codes são posicionados em pontos turísticos selecionados em parceria com a prefeitura. A leitura de um QR Code adiciona pontos à conta do usuário, com limitações de leitura de 5 minutos por QR Code e um teto diário de 700 pontos.
+- **Parceiros**: Uma categoria distinta de usuários. Eles não têm funcionalidades de resgate, mas podem criar recompensas e validar QR Codes de prêmios dos usuários.
 
 ## Configuração
 

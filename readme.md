@@ -1,64 +1,227 @@
-# **Duck GO!**: Projeto Final - Semeando Devs
-> Proposto pela empresa SoftFocus
+# Duck GO! - Documentação Técnica
 
-## 📌 **Visão Geral**
-O **Duck GO!** é uma proposta para o incentivo e enriquecimento do turismo em Pato Branco - PR. Inspirado pelo conceito de Pokémon GO!, este projeto visa não apenas promover o turismo, mas também integrar a comunidade local através de recompensas tangíveis.
+## Sumário
 
-**[Acessar o Duck GO!](https://luispaludo.github.io/duck-go/)**
+1. [Introdução](#introdução)
+2. [Configuração](#configuração)
+3. [Apps](#apps)
+    - [user_data](#user_data)
+    - [prizes](#prizes)
+    - [locations](#locations)
 
-## 🌟 **Funcionalidades**
+## Introdução
 
-### 1. **Cadastro de Usuário**
-- Coleta de informações do usuário para entender o fluxo e perfil dos turistas.
-- Suporte para dois tipos de contas: **Usuários Convencionais** e **Usuários Parceiros**.
+O projeto **Duck GO!** é um webapp desenvolvido com Django, cujo principal objetivo é promover o turismo em Pato Branco. Baseado na ideia do popular jogo Pokémon GO, o projeto visa incentivar visitas a pontos turísticos, permitindo que os visitantes acumulem pontos através da leitura de QR Codes espalhados pelos locais. Esses pontos podem ser trocados por prêmios, incentivando ainda mais a exploração da cidade.
 
-### 2. **Acúmulo de Pontos**
-- Os usuários exploram locais turísticos, escaneiam QR Codes e acumulam pontos.
+## Configuração
 
-### 3. **Troca de Prêmios**
-- Pontos podem ser trocados por prêmios no comércio local.
+- **Banco de Dados**: Hospedado no RDS da Amazon.
+- **Armazenamento de Imagens**: Utilizando o S3 da AWS.
+- **Servidor**: Hospedado no Railway.
+- **Autenticação**: Implementado utilizando a biblioteca `rest_auth` e `rest_framework`, com sistema de tokens (acesso e refresh).
 
-### 4. **Usuários Parceiros**
-- Contas dedicadas à criação e oferta de prêmios.
-- Não acumulam pontos, mas validam prêmios para os usuários convencionais.
+## Apps e seus principais serlializadores/viewsets
 
-### 5. **Administração**
-- Contas parceiras só podem ser criadas através do administrador do sistema.
+### user_data
 
-## 🛠 **Tecnologias e Frameworks**
+#### Modelos
 
-- **Backend**: Construído com o framework **Django**.
-- **Hospedagem**: Servidor no **RailWay**.
-- **Banco de Dados**: Armazenado no **RCD da Amazon**.
-- **Armazenamento de Imagens**: Utilizando o **Amazon S3**.
+- **CustomUser**: 
+    - Modelo personalizado que representa um usuário, podendo ser um usuário regular ou um parceiro.
+    - Campos: `username`, `first_name`, `last_name`, `email`, `cep`, `cpf`, `cnpj`, `address_street`, `address_state`, `address_city`, `profile_photo`, `birth_date`, `is_partner`, `partner_company_name`, `partner_email_contact`, `partner_number_contact`, `partner_company_description` e `partner_company_name_slug`.
+    - O campo `is_partner` indica se o usuário é um parceiro.
+    - Parceiros possuem campos adicionais, como nome da empresa, contato e descrição da empresa.
+    - A geração do campo slug facilita a navegação e busca por parceiros.
 
-## 🔍 **Estrutura do Projeto**
+- **History**:
+    - Armazena o histórico de ações do usuário.
+    - Campos: `date`, `points`, `total_points` e `description`.
+    - O campo `total_points` é apenas para leitura e é calculado no servidor.
 
-### 1. **user_data**
-- **Models**:
-  - **CustomUser**: Extensão do modelo de usuário padrão do Django, com campos de cadastro adicionais.
-  - **History**: Registra atividades do usuário, desde aquisição de pontos até resgate de prêmios.
+#### Serializadores
 
-### 2. **prizes**
-- **Models**:
-  - **Prizes**: Refere-se aos prêmios disponíveis, criados pelos parceiros.
-  - **PrizesCategorys**: Classificações de prêmios.
-  - **UserRedeemedPrizes**: Prêmios que os usuários resgataram, gerando um código único para validação.
+- **CustomUserSerializer**:
+    - Serializa o modelo `CustomUser`.
+    - Retorna campos que representam as informações do usuário.
+    - O campo `is_partner` é somente para leitura.
 
-### 3. **Locations**
-- **Models**:
-  - **Locations**: Representa os locais turísticos de Pato Branco.
-  - **TouristAttractions**: Representa os pontos turísticos, associados a códigos QR únicos.
+- **HistorySerializer**:
+    - Serializa o modelo `History`.
+    - Retorna campos relacionados ao histórico de ações do usuário.
 
-## 📝 **Notas Adicionais**
-- Todos os detalhes técnicos, especificações e comentários mais profundos sobre o código podem ser encontrados diretamente no código fonte.
-- Esta descrição é apenas um panorama para facilitar a compreensão da estrutura e da funcionalidade do projeto.
+#### ViewSets
 
-## Metas do Projeto
+- **CustomUserViewSet**:
+    - Manipula e lista informações dos usuários.
+    - Utiliza autenticação por token.
 
-| Meta                                 | Status          |
-| ------------------------------------ | --------------  |
-| MVP                                  | ✅ Superada     |
-| Testes                               | ⌛ Em Progresso |
-| Sistema de Conquistas                | ❌ Não Superada |
-| Melhorias no código                  | ❌ Não Superada |
+- **HistoryViewSet**:
+    - Lista o histórico de ações de um usuário.
+
+- **PartnerDetailsViewSet**:
+    - Fornece detalhes sobre um parceiro específico.
+    - Filtra os parceiros usando o campo slug.
+
+### prizes
+
+#### Modelos
+
+- **PrizeCategory**:
+    - Define categorias para prêmios.
+    - Campos: `name`.
+
+- **Prizes**:
+    - Representa os prêmios disponíveis para resgate.
+    - Campos: `name`, `description`, `generated_by`, `generated_by_slug`, `times_to_be_used`, `times_used`, `cost_in_points`, `category`, `logo`, `expiry_date`, `disabled`.
+
+- **UserRedeemedPrizes**:
+    - Representa os prêmios que foram resgatados por usuários.
+    - Campos: `user`, `prize`, `redeemed_at`, `code`, `qr_code`, `is_used`.
+
+#### Serializadores
+
+- **PrizesSerializer**:
+    - Serializa o modelo `Prizes`.
+    - Retorna todos os campos associados ao prêmio.
+
+- **UserRedeemedPrizesSerializer**:
+    - Serializa o modelo `UserRedeemedPrizes`.
+    - Retorna informações sobre os prêmios resgatados.
+
+#### ViewSets
+
+- **PrizesViewSet**:
+    - Lista e manipula prêmios disponíveis.
+    - Utiliza o `PrizesSerializer` para serialização.
+
+- **UserRedeemPrizeViewSet**:
+    - Permite que os usuários resgatem prêmios.
+    - Usa autenticação por token.
+
+- **PartnerRedeemPrizeViewSet**:
+    - Permite que os parceiros validem os prêmios resgatados pelos usuários.
+
+### locations
+
+#### Modelos
+
+- **Location**:
+    - Armazena os principais pontos turísticos da cidade.
+    - Campos: `name`, `resume`, `description`, `review_link`, `map_link`, `coordinates_lat`, `coordinates_long`, `slug_field`, `photo_1`, `photo_2`, `photo_3`.
+
+- **TouristAttraction**:
+    - Representa pontos turísticos específicos associados a uma `Location`.
+
+#### Serializadores
+
+- **LocationSerializer**:
+    - Serializa o modelo `Location`.
+    - Retorna todos os campos associados ao ponto turístico principal.
+
+- **TouristAttractionSerializer**:
+    - Serializa o modelo `TouristAttraction`.
+    - Retorna todos os campos associados ao ponto turístico específico.
+
+#### ViewSets
+
+- **LocationViewSet**:
+    - Lista os principais pontos turísticos da cidade.
+    - Não requer autenticação.
+
+- **TouristAttractionViewSet**:
+    - Lista pontos turísticos específicos associados a uma `Location`.
+    - Requer autenticação e suporta a filtragem de dados com base no campo `code`.
+
+# Tutorial de Teste para o Aplicativo Duck GO!
+
+Siga os passos abaixo para testar todas as funcionalidades do aplicativo Duck GO!.
+
+## 1. Acesso ao WebApp
+
+- Acesse o aplicativo através do link: [https://luispaludo.github.io/duck-go](https://luispaludo.github.io/duck-go)
+
+## 2. Criação de Contas
+
+- Crie **duas contas**:
+    1. A primeira conta será um **usuário normal**.
+    2. A segunda conta será um **usuário parceiro**.
+- Para criar as contas, serão necessários 2 emails. Execute a verificação em ambos os emails.
+
+> Nota: Se preferir, você também pode utilizar as contas já criadas que foram fornecidas anteriormente.
+
+## 3. Acesso ao Admin
+
+- Clone o repositório do servidor do backend para a sua máquina.
+- Navegue até o diretório do projeto.
+- Crie um ambiente virtual (venv) para isolar as dependências.
+- Instale os requerimentos do projeto.
+- Execute o servidor localmente.
+  > Nota: O acesso ao servidor local é necessário devido a problemas de acesso pelo servidor hospedado. Esta é uma solução temporária para edição do banco de dados.
+- Acesse a interface de administração do Django em [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin).
+- Utilize as credenciais do super usuário fornecidas para fazer o login.
+
+## 4. Tornando um Usuário em Parceiro
+
+- No painel de administração, vá para `user_data` -> `users`.
+- Escolha o usuário que deseja transformar em parceiro.
+- Na página de edição, marque a caixa de seleção `is_partner`.
+- Salve as alterações.
+
+## 5. Coletando Coordenadas
+
+- Acesse [https://browserleaks.com/geo](https://browserleaks.com/geo) e colete as coordenadas do seu local atual.
+  - Recomendamos que faça isso com o celular para obter maior precisão.
+
+## 6. Adicionando um Ponto Turístico
+
+- No painel de Admin do Django, vá para `locations` e depois em `touristAtractions` para adicionar um novo ponto turístico.
+- Preencha os campos necessários. Exclua os campos `code` e `qr code` (eles serão preenchidos automaticamente ao salvar).
+- Adicione as coordenadas que você coletou no passo 5.
+- Salve e acesse o ponto turístico criado. Copie o link em `QR_code` e salve-o para uso futuro.
+
+## 7. Resgatando Pontos
+
+- Acesse [https://luispaludo.github.io/duck-go](https://luispaludo.github.io/duck-go) e faça login com sua conta de usuário.
+- Na página inicial, clique no botão da câmera e leia o QR Code que você criou no passo 6.
+- Uma mensagem de sucesso aparecerá, indicando que os pontos foram adicionados à sua conta.
+- Vá para o perfil e na aba `histórico`, verifique se os pontos foram adicionados.
+
+## 8. Acessando como Parceiro
+
+- Deslogue da conta do usuário e faça login com a conta do parceiro.
+
+## 9. Atualizando Perfil do Parceiro
+
+- Na aba `perfil`, complete as informações que faltam.
+
+## 10. Criando um Prêmio
+
+- Vá para a aba `criar prêmio` e crie um prêmio para os usuários resgatarem.
+
+## 11. Resgatando Prêmio como Usuário
+
+- Deslogue da conta do parceiro e faça login com a conta do usuário.
+- Vá para a lista de prêmios e, se tiver pontos suficientes, resgate o prêmio criado na etapa 10.
+
+## 12. Verificando o Cupom Resgatado
+
+- Acesse seu perfil e na aba `cupons`, verifique se o cupom resgatado está lá.
+- Acesse o QR Code do prêmio resgatado e salve a imagem.
+
+## 13. Validando o Cupom como Parceiro
+
+- Deslogue da conta do usuário e faça login novamente como parceiro.
+- Na página inicial, clique no botão da câmera e leia o QR Code do usuário.
+
+---
+
+**Outras Funcionalidades**:
+- Reenviar email de verificação.
+- Trocar de senha.
+- Resetar a senha.
+- Conhecer os locais turísticos.
+- Acessar informações das empresas parceiras.
+
+---
+
+
